@@ -9,16 +9,50 @@
 
 // EXPECTED RESULT: { editing: true }
 
-const titleReducer = (state, action) => {
-    let newState;
+export const initialState = {
+    editing: false,
+    title: 'From the reducer 🚀!!!',
+    todos: []
+};
 
-    if(action.type === 'TOGGLE_EDITING') {
-        newState = {
-            ...state,
-            editing: !state.editing 
-        };
+export const titleReducer = (state, action) => {
+
+    switch(action.type) {
+        case "TOGGLE_EDITING":
+            return {
+                ...state,
+                editing: !state.editing 
+            };   
+        case 'UPDATE_TITLE':
+            return {
+                ...state,
+                title: action.payload,
+                editing: false
+            }
+        case 'ADD_TODO':
+            const newTodo = {}
+            return {
+                ...state,
+                todo: [...state.todos, newTodo]
+            }
+        default:
+            return state;
     }
-    return newState; 
+
+    // if(action.type === 'TOGGLE_EDITING') {
+    //     return {
+    //         ...state,
+    //         editing: !state.editing 
+    //     };
+    // } else if (action.type === 'CHANGE_TITLE') {
+    //     return {
+    //         ...state,
+    //         title: action.payload,
+    //         editing: false
+    //     }
+    // } else {
+    //     return state; 
+    // }
 }
 
 console.log(titleReducer({ editing: false }, { type: 'TOGGLE_EDITING' }));
